@@ -15,13 +15,7 @@ let appData = {
 			let outlay = prompt("Введите обязательную статью расходов в этом месяце", ''),
 					outlayCost = +prompt("Во сколько обойдется?", '');
 		
-			if (typeof(outlay) === 'string' && 
-					typeof(outlay) != null && 
-					typeof(outlayCost) != null && 
-					outlay != '' && 
-					outlayCost != '' && 
-					outlay.length < 50 && 
-					outlay.length > 3) {
+			if (typeof(outlay) === 'string' && typeof(outlay) != null && typeof(outlayCost) != null && outlay != '' && outlayCost != '' && outlay.length < 50 && outlay.length > 3) {
 				appData.expenses[outlay] = outlayCost;
 			} else {
 				i--;
@@ -33,11 +27,7 @@ let appData = {
 		for (let i = 0; i < 3; i++) {
 			let outlay = prompt("Статья необязательных расходов?", '');
 		
-			if (typeof(outlay) === 'string' && 
-					typeof(outlay) != null && 
-					outlay != '' && 
-					outlay.length < 50 && 
-					outlay.length > 3) {
+			if (typeof(outlay) === 'string' && typeof(outlay) != null && outlay != '' && outlay.length < 50 && 	outlay.length > 3) {
 				appData.optionalExpenses[i+1] = outlay;
 			} else {
 				i--;
@@ -68,28 +58,32 @@ let appData = {
 	},
 	chooseIncome: function() {
 		let items = prompt('Что принесет дополнительный доход? (Через запятую)', '');
-		if(typeof(items) === 'string' && typeof(items) != null && items != ''){
-			appData.income = items.split(', ');
-		} else {
-			while(items == ''){
+		if(typeof(items) !== 'string' || items == +items || typeof(items) == null || items == '' || items == null){
+			while(typeof(items) !== 'string' || items == +items || typeof(items) == null || items == '' || items == null){
 				items = prompt('Что принесет дополнительный доход? (Через запятую)', '');
 			}
-			appData.income = items.split(', ');
 		}
-		appData.income.push(prompt('Может что-то еще?'));
-		appData.income.sort();
+		appData.income = items.split(', ');
 
-		let sposoby = 'Способы доп. заработка: \n';
+		let anything = prompt('Может что-то еще?');
+		if(anything != ''){
+			appData.income.push(anything);
+		}
+
+		appData.income.sort();
+		let ways = 'Способы доп. заработка: \n';
 		appData.income.forEach(function(item, i) {
-			sposoby += (i+1) + ': ' + item + '\n';
+			ways += (i+1) + ': ' + item + '\n';
 		});
-		alert(sposoby);
+		alert(ways);
 	}
 };
 appData.chooseIncome();
 
 console.log('Наша программа включает в себя данные: ');
 for (let key in appData) {
-	console.log(key + ': ' + appData[key] + ';');
+	if(typeof appData[key] !== 'function'){
+		console.log(key + ': ' + appData[key] + ';');
+	}
 }
 console.log(appData);
